@@ -39,6 +39,8 @@ def flash_set(env : HTTP::Server::Context, msg : String)
 end
 
 def flash_get(env : HTTP::Server::Context)
-  env.session.string?("__flash")
-  env.session.string("__flash", nil)
+  msg = env.session.string?("__flash")
+  msg = "" if msg.nil?
+  env.session.string("__flash", "")
+  msg
 end
