@@ -12,3 +12,7 @@ license: MIT
 dependencies:
   db:
     github: crystal-lang/crystal-db
+  kemal:
+    github: kemalcr/kemal
+  kemal-session:
+    github: kemalcr/kemal-session

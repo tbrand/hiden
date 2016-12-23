@@ -25,3 +25,4 @@ describe "db_model" do
     users.first.name.should eq("name")
   end
 end
+

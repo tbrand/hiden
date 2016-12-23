@@ -1,4 +1,6 @@
 require "db"
+require "kemal"
+require "kemal-session"
 
 macro db_model(name, *properties)
   {% for p in properties %}
@@ -10,7 +12,6 @@ macro db_model(name, *properties)
   record {{name.id}}, {{*properties}} do    
 
     def self.query(db, q : String)
-      
       models = [] of self
       
       db.query(q) do |rows|
@@ -18,7 +19,6 @@ macro db_model(name, *properties)
           models << read(rows)
         end
       end
-
       models
     end
     
@@ -33,3 +33,13 @@ macro db_model(name, *properties)
     end
   end
 end
+
+def flash_set(env : HTTP::Server::Context, msg : String)
+  env.session.string("__flash", text)
+end
+
+def flash_get(env : HTTP::Server::Context, msg : String)
+  env.session.string?("__flash")
+  env.session.string("__flash", nil)
+end
+
