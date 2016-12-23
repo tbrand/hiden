@@ -9,7 +9,7 @@ macro db_model(name, *properties)
     {% end %}
   {% end %}
 
-  record {{name.id}}, {{*properties}} do    
+    record {{name.id}}, {{*properties}} do    
 
     def self.query(db, q : String)
       models = [] of self
@@ -24,24 +24,21 @@ macro db_model(name, *properties)
     
     def self.read(row)
       new(
-      {% for p in properties %}
-        {% if p.is_a?(TypeDeclaration) %}
-          row.read({{p.type}}).as({{p.type}}),
+        {% for p in properties %}
+          {% if p.is_a?(TypeDeclaration) %}
+            row.read({{p.type}}).as({{p.type}}),
+          {% end %}
         {% end %}
-      {% end %}
       )
     end
   end
 end
 
-class Flash
-  
-  def self.set(env : HTTP::Server::Context, msg : String)
-    env.session.string("__flash", text)    
-  end
+def flash_set(env : HTTP::Server::Context, msg : String)
+  env.session.string("__flash", msg)
+end
 
-  def self.get(env : HTTP::Server::Context, msg : String)
-    env.session.string?("__flash")
-    env.session.string("__flash", nil)
-  end
+def flash_get(env : HTTP::Server::Context)
+  env.session.string?("__flash")
+  env.session.string("__flash", nil)
 end
