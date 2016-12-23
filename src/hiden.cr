@@ -34,12 +34,14 @@ macro db_model(name, *properties)
   end
 end
 
-def flash_set(env : HTTP::Server::Context, msg : String)
-  env.session.string("__flash", text)
-end
+class Flash
+  
+  def self.set(env : HTTP::Server::Context, msg : String)
+    env.session.string("__flash", text)    
+  end
 
-def flash_get(env : HTTP::Server::Context, msg : String)
-  env.session.string?("__flash")
-  env.session.string("__flash", nil)
+  def self.get(env : HTTP::Server::Context, msg : String)
+    env.session.string?("__flash")
+    env.session.string("__flash", nil)
+  end
 end
-
