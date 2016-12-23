@@ -1,0 +1,14 @@
+name: hiden
+version: 0.1.0
+
+authors:
+  - taicsuzu <taicsuzu@yahoo-corp.jp>
+
+
+crystal: 0.20.1
+
+license: MIT
+
+dependencies:
+  db:
+    github: crystal-lang/crystal-db
