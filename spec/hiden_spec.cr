@@ -103,4 +103,9 @@ describe "redis_cache" do
     val1.should eq("ok")
     val2.should eq("ok")
   end
+
+  it "cache exists?" do
+    MockCache.clean_cache
+    MockCache.cache_exists?("dummy").should eq(false)
+  end
 end

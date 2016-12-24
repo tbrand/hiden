@@ -80,8 +80,16 @@ macro redis_cache
     val
   end
 
+  def self.get_cache(key)
+    @@redis.get(key)
+  end
+
   def self.set_cache(key, value)
     @@redis.set(key, value)
+  end
+
+  def self.cache_exists?(key)
+    !@@redis.get(key).nil?
   end
 
   def self.clean_cache(key)
