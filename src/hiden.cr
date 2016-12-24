@@ -12,6 +12,12 @@ macro db_model(name, *properties)
 
     record {{name.id}}, {{*properties}} do
 
+    JSON.mapping(
+      {% for p in properties %}
+        {{p.var}}: {{p.type}},
+      {% end %}
+    )
+
     def self.query(db, q : String)
       models = [] of self
       

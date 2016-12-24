@@ -23,6 +23,12 @@ describe "db_model" do
     users.first.id.should eq(1)
     users.first.name.should eq("name")
   end
+
+  it "create from json" do
+    user = User.from_json("{\"id\": 1, \"name\": \"name\"}")
+    user.id.should eq(1)
+    user.name.should eq("name")
+  end
 end
 
 describe "flash" do
