@@ -14,6 +14,7 @@ dependencies:
     github: crystal-lang/crystal-db
   kemal:
     github: kemalcr/kemal
+    version: 0.17.3
   kemal-session:
     github: kemalcr/kemal-session
   redis:
