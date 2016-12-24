@@ -77,3 +77,20 @@ def flash_get(env)
   msg
 end
 
+class DebuggableDB
+
+  def initialize(uri, debug_mode : Bool)
+    @@db = DB.open(uri)
+    @@mode = debug_mode
+  end
+
+  def exec(q : String)
+    puts q
+    @@db.exec q
+  end
+
+  def query(q : String)
+    puts q
+    @@db.query q
+  end
+end
