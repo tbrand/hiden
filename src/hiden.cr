@@ -79,13 +79,13 @@ class DebuggableDB
   def exec(q : String)
     raise "db is not initialized" if @db.nil?
     puts q
-    @db.exec q
+    @db.as(DB::Database).exec q
   end
 
   def query(q : String)
     raise "db is not initialized" if @db.nil?
     puts q
-    @db.query q
+    @db.as(DB::Database).query q
   end
 end
 
