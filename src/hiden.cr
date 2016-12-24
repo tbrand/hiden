@@ -58,6 +58,12 @@ macro redis_cache
   def self.clean_cache(key)
     @@redis.del(key)
   end
+
+  def self.clean_cache
+    @@redis.keys("*").each do |key|
+      @@redis.del(key)
+    end
+  end
 end
 
 def flash_set(env, msg : String)

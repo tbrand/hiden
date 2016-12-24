@@ -70,5 +70,30 @@ describe "redis_cache" do
 
     count.should eq(1)
   end
+
+  it "clean cache" do
+
+    MockCache.set_cache("clean0", "ng")
+    MockCache.set_cache("clean1", "ng")
+    MockCache.set_cache("clean2", "ng")
+    
+    MockCache.clean_cache
+
+    val0 = MockCache.get_cache("clean0") do
+      "ok"
+    end
+
+    val1 = MockCache.get_cache("clean1") do
+      "ok"
+    end
+
+    val2 = MockCache.get_cache("clean2") do
+      "ok"
+    end
+
+    val0.should eq("ok")
+    val1.should eq("ok")
+    val2.should eq("ok")
+  end
 end
 
