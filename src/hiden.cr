@@ -46,14 +46,12 @@ class DebuggableDB
   end
 
   def exec(q : String)
-    raise "db is not initialized" if @db.nil?
-    puts q
+    puts "\e[33m[Query]\e[m #{q}" if debug_mode
     @db.as(DB::Database).exec q
   end
   
   def query(q : String, &block)
-    raise "db is not initialized" if @db.nil?
-    puts q
+    puts "\e[33m[Query]\e[m #{q}" if debug_mode
     @db.as(DB::Database).query(q) do |rows|
       yield rows
     end

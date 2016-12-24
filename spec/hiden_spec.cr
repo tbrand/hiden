@@ -96,4 +96,3 @@ describe "redis_cache" do
     val2.should eq("ok")
   end
 end
-
