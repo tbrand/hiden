@@ -25,9 +25,11 @@ describe "db_model" do
   end
 
   it "create from json" do
-    user = User.from_json("{\"id\": 1, \"name\": \"name\"}")
+    json = "{\"id\":1,\"name\":\"name\"}"
+    user = User.from_json(json)
     user.id.should eq(1)
     user.name.should eq("name")
+    user.to_json.should eq(json)
   end
 end
 
