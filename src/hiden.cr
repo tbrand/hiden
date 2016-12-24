@@ -10,7 +10,7 @@ macro db_model(name, *properties)
     {% end %}
   {% end %}
 
-    record {{name.id}}, {{*properties}} do    
+    record {{name.id}}, {{*properties}} do
 
     def self.query(db, q : String)
       models = [] of self
@@ -31,6 +31,31 @@ macro db_model(name, *properties)
           {% end %}
         {% end %}
       )
+    end
+  end
+end
+
+class DebuggableDB
+
+  @db : DB::Database|Nil
+  @mode : Bool = false
+
+  def initialize(uri, debug_mode : Bool)
+    @db = DB.open(uri)
+    @mode = debug_mode
+  end
+
+  def exec(q : String)
+    raise "db is not initialized" if @db.nil?
+    puts q
+    @db.as(DB::Database).exec q
+  end
+  
+  def query(q : String, &block)
+    raise "db is not initialized" if @db.nil?
+    puts q
+    @db.as(DB::Database).query do |rows|
+      yield rows
     end
   end
 end
@@ -63,29 +88,6 @@ macro redis_cache
     @@redis.keys("*").each do |key|
       @@redis.del(key)
     end
-  end
-end
-
-class DebuggableDB
-
-  @db : DB::Database|Nil
-  @mode : Bool = false
-
-  def initialize(uri, debug_mode : Bool)
-    @db = DB.open(uri)
-    @mode = debug_mode
-  end
-
-  def exec(q : String)
-    raise "db is not initialized" if @db.nil?
-    puts q
-    @db.as(DB::Database).exec q
-  end
-
-  def query(q : String)
-    raise "db is not initialized" if @db.nil?
-    puts q
-    @db.as(DB::Database).query q
   end
 end
 
