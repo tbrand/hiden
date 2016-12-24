@@ -38,7 +38,7 @@ end
 class DebuggableDB
 
   @db : DB::Database|Nil
-  @mode : Bool = false
+  @mode : Bool = true
 
   def initialize(uri, debug_mode : Bool)
     @db = DB.open(uri)
@@ -46,12 +46,12 @@ class DebuggableDB
   end
 
   def exec(q : String)
-    puts "\e[33m[Query]\e[m #{q}" if debug_mode
+    puts "\e[33m[Query]\e[m #{q}" if @mode
     @db.as(DB::Database).exec q
   end
   
   def query(q : String, &block)
-    puts "\e[33m[Query]\e[m #{q}" if debug_mode
+    puts "\e[33m[Query]\e[m #{q}" if @mode
     @db.as(DB::Database).query(q) do |rows|
       yield rows
     end
