@@ -68,17 +68,22 @@ end
 
 class DebuggableDB
 
+  @db : DB::Database|Nil
+  @mode : Bool = false
+
   def initialize(uri, debug_mode : Bool)
-    @db : DB::Database = DB.open(uri)
+    @db = DB.open(uri)
     @mode = debug_mode
   end
 
   def exec(q : String)
+    raise "db is not initialized" if @db.nil?
     puts q
     @db.exec q
   end
 
   def query(q : String)
+    raise "db is not initialized" if @db.nil?
     puts q
     @db.query q
   end
