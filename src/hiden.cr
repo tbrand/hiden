@@ -69,7 +69,7 @@ end
 class DebuggableDB
 
   def initialize(uri, debug_mode : Bool)
-    @db = DB.open(uri)
+    @db : DB::Database = DB.open(uri)
     @mode = debug_mode
   end
 
