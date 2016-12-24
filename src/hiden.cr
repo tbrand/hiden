@@ -1,6 +1,7 @@
 require "db"
 require "kemal"
 require "kemal-session"
+require "redis"
 
 macro db_model(name, *properties)
   {% for p in properties %}
@@ -34,13 +35,39 @@ macro db_model(name, *properties)
   end
 end
 
-def flash_set(env : HTTP::Server::Context, msg : String)
+macro redis_cache
+  
+  @@redis = Redis.new
+
+  def self.get_cache(key, &block)
+    
+    val = @@redis.get(key)
+    
+    if val.nil?
+      val = yield if val.nil?
+      @@redis.set(key, val)
+    end
+    
+    val
+  end
+
+  def self.set_cache(key, value)
+    @@redis.set(key, value)
+  end
+
+  def self.clean_cache(key)
+    @@redis.del(key)
+  end
+end
+
+def flash_set(env, msg : String)
   env.session.string("__flash", msg)
 end
 
-def flash_get(env : HTTP::Server::Context)
+def flash_get(env)
   msg = env.session.string?("__flash")
   msg = "" if msg.nil?
   env.session.string("__flash", "")
   msg
 end
+

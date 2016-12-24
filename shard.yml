@@ -16,3 +16,6 @@ dependencies:
     github: kemalcr/kemal
   kemal-session:
     github: kemalcr/kemal-session
+  redis:
+    github: stefanwille/crystal-redis
+    branch: master
