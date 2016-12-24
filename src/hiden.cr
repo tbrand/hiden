@@ -54,7 +54,7 @@ class DebuggableDB
   def query(q : String, &block)
     raise "db is not initialized" if @db.nil?
     puts q
-    @db.as(DB::Database).query do |rows|
+    @db.as(DB::Database).query(q) do |rows|
       yield rows
     end
   end
